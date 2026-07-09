@@ -96,7 +96,7 @@ export const ui = {
 					'Maven',
 					'Testing E2E',
 				],
-				link: '/onepager.pdf',
+				link: '/backend-factory-onepager.pdf',
 				linkLabel: 'Ver one-pager (PDF)',
 			},
 			{
@@ -304,7 +304,7 @@ export const ui = {
 					'Maven',
 					'E2E Testing',
 				],
-				link: '/onepager.pdf',
+				link: '/backend-factory-onepager.pdf',
 				linkLabel: 'View one-pager (PDF)',
 			},
 			{

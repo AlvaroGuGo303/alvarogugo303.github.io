@@ -31,7 +31,8 @@ const {
 	linkLabel,
 	collapseAfter,
 } = Astro.props;
-const external = link?.startsWith('http');
+// Abrir en pestaña nueva los enlaces externos y los ficheros (PDF, etc.).
+const external = link?.startsWith('http') || /\.(pdf|docx?|xlsx?|zip)$/i.test(link ?? '');
 
 const t = useTranslations(getLangFromUrl(Astro.url));
 
