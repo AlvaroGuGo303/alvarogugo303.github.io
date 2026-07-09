@@ -96,7 +96,11 @@ const navItems = [
 </header>
 
 <script>
-	document.addEventListener('astro:page-load', () => {
+	const initHeader = () => {
+		const menuBtn = document.getElementById('menu-btn');
+		if (!menuBtn || menuBtn.dataset.bound === '1') return; // guard: no re-inicializar el mismo DOM
+		menuBtn.dataset.bound = '1';
+
 		// --- Scroll-spy: resalta la sección visible y la recuerda para el idioma ---
 		const sections = document.querySelectorAll('section');
 		const navLinks = document.querySelectorAll('#header-nav a');
@@ -130,6 +134,8 @@ const navItems = [
 		};
 		btn?.addEventListener('click', (e) => {
 			e.stopPropagation();
+			// Cerrar el menú de tema si estaba abierto — mutuamente excluyentes.
+			document.getElementById('themes-menu')?.classList.remove('open');
 			setOpen(menu?.classList.contains('hidden') ?? false);
 		});
 		menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
@@ -137,5 +143,11 @@ const navItems = [
 		document.addEventListener('keydown', (e) => {
 			if (e.key === 'Escape') setOpen(false);
 		});
-	});
+	};
+
+	// Corre con view-transitions (astro:page-load) Y en carga directa (p. ej. 404,
+	// donde astro:page-load puede no dispararse). El guard evita doble-init.
+	document.addEventListener('astro:page-load', initHeader);
+	if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initHeader);
+	else initHeader();
 </script>

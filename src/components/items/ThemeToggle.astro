@@ -31,7 +31,7 @@ const THEMES = [
   </button>
   <div
     id="themes-menu"
-    class="absolute opacity-0 scale-80 top-8 right-0 text-sm p-1 min-w-[8rem] rounded-md border border-gray-100 bg-white/90 dark:bg-gray-900/90 dark:border-gray-500/20 shadow-[0_3px_10px_rgb(0,0,0,0.2)] backdrop-blur-md"
+    class="absolute opacity-0 scale-80 top-8 left-1/2 -ml-16 text-sm p-1 min-w-[8rem] rounded-md border border-gray-100 bg-white/90 dark:bg-gray-900/90 dark:border-gray-500/20 shadow-[0_3px_10px_rgb(0,0,0,0.2)] backdrop-blur-md"
   >
     <ul>
       {
@@ -49,6 +49,12 @@ const THEMES = [
 </div>
 
 <style>
+  /* Fallback sin JS (p. ej. en 404): mostrar solo el icono correcto segun el tema
+     (ThemeScript ya fija .dark en <head>); el JS del toggle lo refina ("system"). */
+  .theme-toggle-icon { scale: 0; }
+  :root:not(.dark) #light.theme-toggle-icon { scale: 1; }
+  :root.dark #dark.theme-toggle-icon { scale: 1; }
+
   #themes-menu.open {
     animation: scale-up-center 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     display: block !important;
@@ -71,55 +77,71 @@ const THEMES = [
 </style>
 
 <script is:inline>
-  document.addEventListener("astro:page-load", () => {
-    let remove = null;
-    const matchMedia = window.matchMedia("(prefers-color-scheme: dark)");
-    const themesMenu = document.getElementById("themes-menu");
+  (function () {
+    const init = () => {
+      const themeBtn = document.getElementById("theme-toggle-btn");
+      const themesMenu = document.getElementById("themes-menu");
+      // Guard: no re-vincular el mismo botón (evita duplicados si init corre 2 veces).
+      if (!themeBtn || !themesMenu || themeBtn.dataset.bound) return;
+      themeBtn.dataset.bound = "1";
 
-    const getThemePreference = () => {
-      if (typeof localStorage !== "undefined") {
-        return localStorage.getItem("theme") ?? "dark"; // dark por defecto
-      }
-      return "dark";
-    };
-    const updateIcon = (themePreference) => {
-      document.querySelectorAll(".theme-toggle-icon").forEach((element) => {
-        element.style.scale = element.id === themePreference ? "1" : "0";
-      });
-    };
-    const updateTheme = () => {
-      if (remove != null) {
-        remove();
-      }
-      matchMedia.addEventListener("change", updateTheme);
-      remove = () => {
-        matchMedia.removeEventListener("change", updateTheme);
+      let remove = null;
+      const matchMedia = window.matchMedia("(prefers-color-scheme: dark)");
+
+      const getThemePreference = () => {
+        if (typeof localStorage !== "undefined") {
+          return localStorage.getItem("theme") ?? "dark"; // dark por defecto
+        }
+        return "dark";
       };
-      const themePreference = getThemePreference();
-      const isDark =
-        themePreference === "dark" ||
-        (themePreference === "system" && matchMedia.matches);
-      updateIcon(themePreference);
-      document.documentElement.classList[isDark ? "add" : "remove"]("dark");
-    };
-    document
-      .getElementById("theme-toggle-btn")
-      .addEventListener("click", (e) => {
+      const updateIcon = (themePreference) => {
+        document.querySelectorAll(".theme-toggle-icon").forEach((element) => {
+          element.style.scale = element.id === themePreference ? "1" : "0";
+        });
+      };
+      const updateTheme = () => {
+        if (remove != null) remove();
+        matchMedia.addEventListener("change", updateTheme);
+        remove = () => matchMedia.removeEventListener("change", updateTheme);
+        const themePreference = getThemePreference();
+        const isDark =
+          themePreference === "dark" ||
+          (themePreference === "system" && matchMedia.matches);
+        updateIcon(themePreference);
+        document.documentElement.classList[isDark ? "add" : "remove"]("dark");
+      };
+
+      themeBtn.addEventListener("click", (e) => {
         e.stopPropagation();
+        // Cerrar el menú móvil (hamburger) si estaba abierto — mutuamente excluyentes.
+        const mobileMenu = document.getElementById("mobile-menu");
+        if (mobileMenu) {
+          mobileMenu.classList.add("hidden");
+          mobileMenu.classList.remove("flex");
+        }
+        document.getElementById("menu-btn")?.setAttribute("aria-expanded", "false");
         const isClosed = !themesMenu.classList.contains("open");
         themesMenu.classList[isClosed ? "add" : "remove"]("open");
       });
-    document.querySelectorAll(".themes-menu-option").forEach((element) => {
-      element.addEventListener("click", (e) => {
-        // Guarda el valor canónico (data-theme), no el texto traducido.
-        localStorage.setItem("theme", e.currentTarget.dataset.theme);
-        updateTheme();
+      document.querySelectorAll(".themes-menu-option").forEach((element) => {
+        element.addEventListener("click", (e) => {
+          // Guarda el valor canónico (data-theme), no el texto traducido.
+          localStorage.setItem("theme", e.currentTarget.dataset.theme);
+          updateTheme();
+        });
       });
-    });
-    document.addEventListener("click", () =>
-      themesMenu.classList.remove("open")
-    );
+      document.addEventListener("click", () => themesMenu.classList.remove("open"));
 
-    updateTheme();
-  });
+      updateTheme();
+    };
+
+    // Corre con view-transitions (astro:page-load) Y en carga directa (p. ej. 404,
+    // donde astro:page-load puede no dispararse). El guard evita doble-init.
+    document.addEventListener("astro:page-load", init);
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", init);
+    } else {
+      init();
+    }
+  })();
 </script>
