@@ -1,0 +1,58 @@
+---
+import Badge from '@/components/items/Badge.astro';
+import SocialPill from '@/components/items/SocialPill.astro';
+import TagList from '@/components/items/TagList.astro';
+import LinkedInIcon from '@/components/icons/LinkedIn.astro';
+import MailIcon from '@/components/icons/Mail.astro';
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+import { CONTACT_EMAIL, LINKEDIN_URL } from '@/consts';
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const personalImageAlt = 'Álvaro Guillén González';
+const stack = t('personTop.stack');
+---
+
+<section id="home" class="max-w-3xl mx-auto px-4 pt-32 pb-16 md:pt-40 md:pb-24">
+	<div class="flex flex-wrap items-center gap-4 mb-6">
+		<img
+			class="rounded-full shadow-lg size-16 ring-2 ring-accent/30 dark:ring-accent-hot/30"
+			src="/alvaro.webp"
+			alt={personalImageAlt}
+		/>
+		<div class="flex flex-wrap gap-2">
+			<a href={LINKEDIN_URL} target="_blank" rel="noopener" class="transition hover:scale-105">
+				<Badge>{t('personTop.badgeWork')}</Badge>
+			</a>
+			<a href={LINKEDIN_URL} target="_blank" rel="noopener" class="transition hover:scale-105">
+				<Badge>{t('personTop.badgeFreelance')}</Badge>
+			</a>
+		</div>
+	</div>
+
+	<p class="font-mono text-xs uppercase tracking-[0.16em] text-accent dark:text-accent-hot mb-4">
+		{t('hero.eyebrow')}
+	</p>
+
+	<h1 class="text-4xl md:text-5xl font-bold tracking-tight text-balance leading-[1.1]">
+		{t('personTop.title')}
+	</h1>
+
+	<p
+		set:html={t('personTop.bio')}
+		class="mt-6 text-lg af-muted max-w-2xl [&>strong]:font-semibold [&>strong]:text-accent dark:[&>strong]:text-accent-hot"
+	/>
+
+	<nav class="flex flex-wrap gap-3 mt-8">
+		<SocialPill href={`mailto:${CONTACT_EMAIL}`} primary>
+			<MailIcon class="size-4" />
+			{t('personTop.mail')}
+		</SocialPill>
+		<SocialPill href={LINKEDIN_URL}>
+			<LinkedInIcon class="size-4" />
+			{t('personTop.linkedin')}
+		</SocialPill>
+	</nav>
+
+	<p class="mt-10 font-mono text-xs uppercase tracking-[0.16em] af-muted">{t('personTop.stackLabel')}</p>
+	<TagList tags={stack} class="mt-3" />
+</section>

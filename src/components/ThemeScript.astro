@@ -1,0 +1,30 @@
+---
+// Aplica el tema ANTES del primer pintado (sin flash) y en cada view-transition
+// (astro:after-swap corre antes del paint), para que navegar entre páginas no
+// resetee el tema. El menú y los iconos los gestiona items/ThemeToggle.astro.
+// Va en el <head> del Layout, lo más arriba posible.
+---
+
+<script is:inline>
+	(function () {
+		const apply = () => {
+			const pref = localStorage.getItem('theme') ?? 'dark'; // dark por defecto
+			const dark =
+				pref === 'dark' ||
+				(pref === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+			document.documentElement.classList.toggle('dark', dark);
+		};
+		apply();
+		document.addEventListener('astro:after-swap', apply);
+
+		// Impresión: forzar tema claro (papel blanco) y restaurar al terminar.
+		let wasDark = false;
+		window.addEventListener('beforeprint', () => {
+			wasDark = document.documentElement.classList.contains('dark');
+			if (wasDark) document.documentElement.classList.remove('dark');
+		});
+		window.addEventListener('afterprint', () => {
+			if (wasDark) document.documentElement.classList.add('dark');
+		});
+	})();
+</script>

@@ -1,0 +1,45 @@
+---
+import SectionContainer from '@/components/sections/SectionContainer.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import SocialPill from '@/components/items/SocialPill.astro';
+import MailIcon from '@/components/icons/Mail.astro';
+import LinkedInIcon from '@/components/icons/LinkedIn.astro';
+import GitHubIcon from '@/components/icons/GitHubIcon.astro';
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+import { inline } from '@/i18n/inline';
+import { CONTACT_EMAIL, LINKEDIN_URL, GITHUB_URL } from '@/consts';
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const strip = (u: string) => u.replace(/^https?:\/\//, '').replace(/\/$/, '');
+---
+
+<section id="contact" class="py-20 md:py-28">
+	<SectionContainer class="px-4">
+		<SectionHeading eyebrow={t('contact.eyebrow')} title={t('contact.title')} />
+		<p class="mt-4 af-muted max-w-2xl text-lg" set:html={inline(t('contact.text'))} />
+
+		<div class="flex flex-wrap items-center gap-3 mt-8">
+			<SocialPill href={`mailto:${CONTACT_EMAIL}`} primary>
+				<MailIcon class="size-4" />
+				{t('contact.cta')}
+			</SocialPill>
+			<SocialPill href={LINKEDIN_URL}>
+				<LinkedInIcon class="size-4" />
+				LinkedIn
+			</SocialPill>
+			<SocialPill href={GITHUB_URL}>
+				<GitHubIcon class="size-4" />
+				GitHub
+			</SocialPill>
+		</div>
+
+		<!-- Datos en texto (visibles en pantalla y al imprimir/guardar como PDF) -->
+		<p class="mt-6 text-sm af-muted flex flex-wrap items-center gap-x-2 gap-y-1">
+			<a href={`mailto:${CONTACT_EMAIL}`} class="hover:text-accent dark:hover:text-accent-hot transition">{CONTACT_EMAIL}</a>
+			<span aria-hidden="true">·</span>
+			<a href={LINKEDIN_URL} target="_blank" rel="noopener" class="hover:text-accent dark:hover:text-accent-hot transition">{strip(LINKEDIN_URL)}</a>
+			<span aria-hidden="true">·</span>
+			<a href={GITHUB_URL} target="_blank" rel="noopener" class="hover:text-accent dark:hover:text-accent-hot transition">{strip(GITHUB_URL)}</a>
+		</p>
+	</SectionContainer>
+</section>

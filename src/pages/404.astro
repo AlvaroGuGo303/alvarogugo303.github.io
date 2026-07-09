@@ -1,0 +1,29 @@
+---
+import Layout from '@/layouts/Layout.astro';
+
+// GitHub Pages sirve dist/404.html para cualquier ruta inexistente, por eso
+// vive en la raíz (no bajo [lang]) y no sabe el idioma del visitante → ES.
+---
+
+<Layout title="404 — Álvaro Guillén" description="Página no encontrada" lang="es">
+	<main class="max-w-2xl mx-auto px-4 pt-40 md:pt-48 pb-32 text-center">
+		<svg viewBox="0 0 64 64" class="w-14 h-14 mx-auto opacity-90" aria-hidden="true">
+			<rect x="4" y="4" width="56" height="56" rx="14" fill="none" class="stroke-accent dark:stroke-accent-hot" stroke-width="4"></rect>
+			<text x="32" y="42" text-anchor="middle" class="fill-steel dark:fill-steel-light" font-family="ui-monospace, monospace" font-size="26" font-weight="700">AG</text>
+		</svg>
+
+		<p class="mt-8 font-mono text-sm text-accent dark:text-accent-hot">404</p>
+		<h1 class="mt-2 text-3xl md:text-4xl font-bold tracking-tight text-balance">
+			Esta página no existe
+		</h1>
+		<p class="mt-3 af-muted">La página que buscas no existe o se ha movido.</p>
+
+		<div class="mt-8">
+			<a
+				href="/es/"
+				class="rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-white hover:bg-accent-hot transition"
+				>Volver al inicio</a
+			>
+		</div>
+	</main>
+</Layout>

@@ -1,0 +1,106 @@
+---
+import '@/styles/globals.css';
+import Footer from '@/components/sections/Footer.astro';
+import Header from '../components/sections/Header.astro';
+import Analytics from '@/components/Analytics.astro';
+import ThemeScript from '@/components/ThemeScript.astro';
+import { ClientRouter } from 'astro:transitions';
+import { FULL_NAME, ROLE, LINKEDIN_URL, GITHUB_URL } from '@/consts';
+
+interface Props {
+	title: string;
+	description: string;
+	lang?: string;
+	ogTitle?: string;
+	ogDescription?: string;
+}
+
+const { description, title, lang = 'es', ogTitle, ogDescription } = Astro.props;
+const ogT = ogTitle ?? title;
+const ogD = ogDescription ?? description;
+
+const site = Astro.site;
+const canonical = site ? new URL(Astro.url.pathname, site).href : Astro.url.pathname;
+const urlEn = site ? new URL('/en/', site).href : '/en/';
+const urlEs = site ? new URL('/es/', site).href : '/es/';
+const ogImage = site ? new URL('/alvaro.webp', site).href : '/alvaro.webp';
+
+const jsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'Person',
+	name: FULL_NAME,
+	jobTitle: ROLE,
+	url: site ? site.href : undefined,
+	image: ogImage,
+	sameAs: [LINKEDIN_URL, GITHUB_URL],
+	description: ogD,
+};
+---
+
+<!doctype html>
+<html lang={lang}>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<ThemeScript />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+
+		<!-- Canonical + hreflang (sitio bilingüe) -->
+		<link rel="canonical" href={canonical} />
+		<link rel="alternate" hreflang="es" href={urlEs} />
+		<link rel="alternate" hreflang="en" href={urlEn} />
+		<link rel="alternate" hreflang="x-default" href={urlEs} />
+
+		<!-- Open Graph / social cards -->
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content={FULL_NAME} />
+		<meta property="og:locale" content={lang === 'en' ? 'en_US' : 'es_ES'} />
+		<meta property="og:url" content={canonical} />
+		<meta property="og:title" content={ogT} />
+		<meta property="og:description" content={ogD} />
+		<meta property="og:image" content={ogImage} />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={ogT} />
+		<meta name="twitter:description" content={ogD} />
+		<meta name="twitter:image" content={ogImage} />
+
+		<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+		<Analytics />
+		<ClientRouter />
+	</head>
+
+	<body class="relative text-ink dark:text-[#e9edf3]">
+		<div class="af-page-bg absolute top-0 bottom-0 z-[-2] min-h-screen w-full"></div>
+		<Header />
+		<slot />
+		<Footer />
+		<style is:global>
+			:root {
+				color-scheme: light dark;
+			}
+
+			html {
+				font-family: 'Onest Variable', system-ui, sans-serif;
+				scroll-behavior: smooth;
+			}
+
+			body {
+				display: flex;
+				flex-direction: column;
+				min-height: 100vh;
+				overscroll-behavior: none;
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				html {
+					scroll-behavior: auto;
+				}
+			}
+		</style>
+	</body>
+</html>

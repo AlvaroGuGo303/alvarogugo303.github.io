@@ -1,0 +1,101 @@
+@import 'tailwindcss';
+@config '../../tailwind.config.mjs';
+
+/* ── ÚNICO sitio para tocar color en toda la web ──────────────────────────
+   Marca + superficies. Los canales van en formato "r g b" (sin comas) para
+   que Tailwind pueda aplicar opacidades: rgb(var(--accent) / <alpha-value>),
+   que es de donde tailwind.config.mjs lee los colores accent/steel/ink.
+   Cambia un valor aquí y cambia toda la web (incluidas las clases de Tailwind).
+   Nota: usa canales aquí; para un hex "suelto" pon el hex directo (--af-bg). */
+:root {
+	/* marca — verde esmeralda (identidad del porfolio) */
+	--accent: 5 150 105; /* #059669 esmeralda */
+	--accent-hot: 16 185 129; /* #10b981 (hover / dark) */
+	--accent-soft: 236 253 245; /* #ecfdf5 fondos suaves */
+	--steel: 63 81 112; /* #3f5170 azul acero (secundario) */
+	--steel-light: 128 152 192; /* #8098c0 */
+	--steel-soft: 234 239 245; /* #eaeff5 */
+	--ink: 20 24 31; /* #14181f texto */
+	--ink-soft: 85 96 110; /* #55606e */
+	--ink-faint: 139 149 163; /* #8b95a3 */
+
+	/* superficies (light) */
+	--af-bg: #fcfbf9; /* fondo de página (crema cálido) */
+	--af-bg-fade: 252 251 249; /* fin del degradado = fondo transparente */
+	--af-glow: var(--accent); /* glow verde superior */
+	--af-glow-alpha: 0.09;
+	--af-card: #ffffff; /* superficie de tarjeta */
+	--af-zebra: rgb(var(--accent) / 0.025); /* banda alterna (verde muy tenue) */
+}
+.dark {
+	/* superficies (dark); la marca no cambia entre temas */
+	--af-bg: #0d1117;
+	--af-bg-fade: 13 17 23;
+	--af-glow: 52 211 153; /* esmeralda algo más claro para el glow en oscuro */
+	--af-glow-alpha: 0.13;
+	--af-card: rgb(20 26 34 / 0.8); /* #141a22 al 80% */
+	--af-zebra: rgb(255 255 255 / 0.02);
+}
+
+@layer components {
+	/* fondo de página: color base + glow verde superior, ambos por token */
+	.af-page-bg {
+		background-color: var(--af-bg);
+		background-image: radial-gradient(
+			ellipse 75% 60% at 50% -10%,
+			rgb(var(--af-glow) / var(--af-glow-alpha)),
+			rgb(var(--af-bg-fade) / 0)
+		);
+	}
+	/* superficie de tarjeta reutilizable */
+	.af-card {
+		@apply rounded-xl border border-black/[0.07] dark:border-white/10 shadow-sm dark:shadow-none backdrop-blur-sm;
+		background: var(--af-card);
+	}
+	/* texto secundario */
+	.af-muted {
+		@apply text-ink-soft dark:text-[#9aa5b4];
+	}
+}
+
+/* Zebra: bandas alternas full-bleed en las secciones pares (sin líneas divisorias).
+   overflow-x: clip recorta el desbordamiento del truco full-bleed SIN crear contenedor
+   de scroll (a diferencia de overflow:hidden), así el scroll vertical no se rompe. */
+html {
+	overflow-x: clip;
+	/* color base del elemento raíz: tiñe la zona de overscroll/rubber-band
+	   (el rebote elástico) con el tema, en vez de dejar asomar negro. */
+	background-color: var(--af-bg);
+}
+main > section {
+	position: relative;
+}
+main > section:nth-of-type(even)::before {
+	content: '';
+	position: absolute;
+	z-index: -1;
+	top: 0;
+	bottom: 0;
+	left: 50%;
+	right: 50%;
+	margin-left: -50vw;
+	margin-right: -50vw;
+	background: var(--af-zebra);
+}
+
+/* Impresión / guardar como PDF: sin header flotante ni glow, y sin bandas zebra
+   (el tema claro se fuerza desde ThemeScript quitando .dark antes de imprimir). */
+@media print {
+	header {
+		display: none !important;
+	}
+	.af-page-bg {
+		display: none !important;
+	}
+	main > section::before {
+		display: none !important;
+	}
+	main > section:first-of-type {
+		padding-top: 1.5rem !important;
+	}
+}

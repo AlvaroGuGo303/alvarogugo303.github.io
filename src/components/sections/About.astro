@@ -1,0 +1,32 @@
+---
+import SectionContainer from '@/components/sections/SectionContainer.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const personalImageAlt = 'Álvaro Guillén González';
+---
+
+<section id="about" class="py-20 md:py-28">
+	<SectionContainer class="px-4">
+		<SectionHeading eyebrow={t('about.eyebrow')} title={t('about.title')} />
+
+		<article class="flex flex-col items-center gap-10 mt-12 md:flex-row">
+			<div
+				class="af-muted [&>p]:mb-4 text-pretty order-2 md:order-1
+				[&>p>strong]:font-semibold [&>p>strong]:text-accent dark:[&>p>strong]:text-accent-hot"
+				set:html={t('about.bio')}
+			/>
+
+			<img
+				width="256"
+				height="256"
+				src="/alvaro.webp"
+				alt={personalImageAlt}
+				class="order-1 md:order-2 shrink-0 object-cover w-56 aspect-square rounded-2xl rotate-3 p-1
+				bg-accent/5 ring-1 ring-black/10 dark:ring-white/15"
+				style="object-position: 50% 50%"
+			/>
+		</article>
+	</SectionContainer>
+</section>

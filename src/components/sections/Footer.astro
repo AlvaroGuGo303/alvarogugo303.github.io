@@ -1,0 +1,33 @@
+---
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+import { CONTACT_EMAIL, LINKEDIN_URL, GITHUB_URL, FULL_NAME } from '@/consts';
+import GitHubIcon from '@/components/icons/GitHubIcon.astro';
+import LinkedInIcon from '@/components/icons/LinkedInIcon.astro';
+import MailIcon from '@/components/icons/MailIcon.astro';
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="w-full max-w-4xl mx-auto px-4 py-10 mt-4">
+	<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+		<div class="flex items-center gap-2.5">
+			<svg viewBox="0 0 64 64" class="w-6 h-6" aria-hidden="true">
+				<rect x="4" y="4" width="56" height="56" rx="16" fill="none" class="stroke-accent dark:stroke-accent-hot" stroke-width="5"></rect>
+				<text x="32" y="42" text-anchor="middle" class="fill-steel dark:fill-steel-light" font-family="ui-monospace, monospace" font-size="24" font-weight="700">AG</text>
+			</svg>
+			<span class="text-sm text-ink-soft dark:text-[#9aa5b4]">© {currentYear} {FULL_NAME} · {t('footer.rights')}</span>
+		</div>
+		<div class="flex items-center gap-4">
+			<a href={GITHUB_URL} target="_blank" rel="noopener" aria-label="GitHub" class="text-ink-soft dark:text-[#9aa5b4] hover:text-accent dark:hover:text-accent-hot transition">
+				<GitHubIcon class="size-5" />
+			</a>
+			<a href={LINKEDIN_URL} target="_blank" rel="noopener" aria-label="LinkedIn" class="text-ink-soft dark:text-[#9aa5b4] hover:text-accent dark:hover:text-accent-hot transition">
+				<LinkedInIcon class="size-5" />
+			</a>
+			<a href={`mailto:${CONTACT_EMAIL}`} aria-label="Email" class="text-ink-soft dark:text-[#9aa5b4] hover:text-accent dark:hover:text-accent-hot transition">
+				<MailIcon class="size-5" />
+			</a>
+		</div>
+	</div>
+</footer>

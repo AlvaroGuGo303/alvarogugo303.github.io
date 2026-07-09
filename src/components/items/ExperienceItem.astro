@@ -1,0 +1,163 @@
+---
+import TagList from '@/components/items/TagList.astro';
+import { inline } from '@/i18n/inline';
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+
+interface Props {
+	title: string;
+	company: string;
+	description?: string;
+	tasks: readonly string[];
+	certifications?: readonly string[];
+	tags?: readonly string[];
+	date: string;
+	link?: string;
+	linkLabel?: string;
+	/** Nº de tareas visibles antes de plegar el resto en "Ver más".
+	 *  Si no se define, se muestran TODAS (sin toggle). Actívalo por entrada
+	 *  en i18n/ui.ts (p. ej. collapseAfter: 3) donde la lista sea muy larga. */
+	collapseAfter?: number;
+}
+
+const {
+	title,
+	company,
+	description,
+	tasks,
+	certifications = [],
+	tags = [],
+	date,
+	link,
+	linkLabel,
+	collapseAfter,
+} = Astro.props;
+const external = link?.startsWith('http');
+
+const t = useTranslations(getLangFromUrl(Astro.url));
+
+// Plegado opt-in: solo si la entrada define collapseAfter y hay tareas de sobra.
+const collapse = typeof collapseAfter === 'number' && tasks.length > collapseAfter;
+const headTasks = collapse ? tasks.slice(0, collapseAfter) : tasks;
+const restTasks = collapse ? tasks.slice(collapseAfter) : [];
+const taskClass =
+	"relative pl-5 text-pretty before:absolute before:left-0 before:top-2.5 before:size-1.5 before:rounded-full before:bg-accent/60 dark:before:bg-accent-hot/60 before:content-['']";
+---
+
+<li
+	class="relative grid md:grid-cols-5 md:gap-10 pb-12 pl-8 md:pl-10
+	before:absolute before:left-[6px] before:top-2 before:h-full before:border-l-2 before:border-accent/20 dark:before:border-accent-hot/20 before:content-['']
+	last:before:hidden last:pb-0"
+>
+	<!-- punto en la línea -->
+	<span class="absolute left-0 top-1 size-3.5 rounded-full bg-accent dark:bg-accent-hot ring-4 ring-[var(--af-bg)]"></span>
+
+	<!-- Columna izquierda: quién y cuándo -->
+	<div class="md:col-span-2">
+		<div class="md:sticky md:top-24">
+			<h3 class="text-lg font-bold text-accent dark:text-accent-hot">{title}</h3>
+			<h4 class="font-semibold text-ink dark:text-white">{company}</h4>
+			<time class="text-sm af-muted">{date}</time>
+			{
+				certifications.length > 0 && (
+					<ul class="flex flex-wrap gap-1.5 mt-2">
+						{certifications.map((c) => (
+							<li class="px-2 py-0.5 rounded-full text-[11px] font-mono border border-steel/30 text-steel dark:text-steel-light">
+								{c}
+							</li>
+						))}
+					</ul>
+				)
+			}
+		</div>
+	</div>
+
+	<!-- Columna derecha: qué (intro + tareas + link + tags) -->
+	<div class="md:col-span-3 mt-4 md:mt-0">
+		{description && <p class="mb-4 af-muted text-pretty" set:html={inline(description)} />}
+
+		{
+			tasks.length > 0 && (
+				<ul class="flex flex-col gap-2 af-muted">
+					{headTasks.map((task) => (
+						<li class={taskClass} set:html={inline(task)} />
+					))}
+				</ul>
+			)
+		}
+
+		{
+			restTasks.length > 0 && (
+				<details class="exp-details mt-2">
+					<summary class="inline-flex items-center gap-1.5 mt-1 px-3.5 py-1.5 rounded-full text-sm font-medium text-ink-soft dark:text-[#9aa5b4] border border-black/10 dark:border-white/15 hover:border-accent/40 hover:text-accent dark:hover:text-accent-hot transition cursor-pointer select-none">
+						<span class="exp-more">
+							{t('exp.showMore')} (+{restTasks.length})
+						</span>
+						<span class="exp-less">{t('exp.showLess')}</span>
+						<svg class="chev size-4 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M6 9l6 6 6-6" />
+						</svg>
+					</summary>
+					<ul class="flex flex-col gap-2 mt-2 af-muted">
+						{restTasks.map((task) => (
+							<li class={taskClass} set:html={inline(task)} />
+						))}
+					</ul>
+				</details>
+			)
+		}
+
+		{
+			link && (
+				<a
+					href={link}
+					target={external ? '_blank' : undefined}
+					rel={external ? 'noopener noreferrer' : undefined}
+					class="inline-flex items-center gap-1.5 mt-4 px-3.5 py-2 rounded-lg text-sm font-semibold af-card text-ink dark:text-white transition hover:border-accent/40 hover:text-accent dark:hover:text-accent-hot"
+				>
+					{linkLabel ?? 'PDF'}
+					<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M7 7h10v10" />
+						<path d="M7 17 17 7" />
+					</svg>
+				</a>
+			)
+		}
+
+		<TagList tags={tags} />
+	</div>
+</li>
+
+<script>
+	// Al imprimir / guardar como PDF, desplegar todas las listas para que no se
+	// pierda contenido; se restauran al terminar. (Astro incluye este script una
+	// sola vez aunque haya varias experiencias.)
+	let openedForPrint: HTMLDetailsElement[] = [];
+	window.addEventListener('beforeprint', () => {
+		openedForPrint = Array.from(
+			document.querySelectorAll<HTMLDetailsElement>('details.exp-details:not([open])')
+		);
+		openedForPrint.forEach((d) => (d.open = true));
+	});
+	window.addEventListener('afterprint', () => {
+		openedForPrint.forEach((d) => (d.open = false));
+		openedForPrint = [];
+	});
+</script>
+
+<style>
+	.exp-details > summary {
+		list-style: none;
+	}
+	.exp-details > summary::-webkit-details-marker {
+		display: none;
+	}
+	.exp-details[open] .exp-more {
+		display: none;
+	}
+	.exp-details:not([open]) .exp-less {
+		display: none;
+	}
+	.exp-details[open] .chev {
+		transform: rotate(180deg);
+	}
+</style>

@@ -1,0 +1,19 @@
+---
+import SectionContainer from '@/components/sections/SectionContainer.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import ExperienceItem from '@/components/items/ExperienceItem.astro';
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const EXP = t('exp'); // tipos inferidos desde i18n/ui.ts
+---
+
+<section id="experience" class="py-20 md:py-28">
+	<SectionContainer class="px-4">
+		<SectionHeading eyebrow={t('exp.eyebrow')} title={t('exp.title')} />
+		<ol class="relative mt-12">
+			{EXP.map((experience) => <ExperienceItem {...experience} />)}
+		</ol>
+	</SectionContainer>
+</section>

@@ -1,0 +1,8 @@
+---
+import Redirect from '@/components/Redirect.astro';
+
+// Redirigir al idioma por defecto
+const defaultLocale = 'es';
+---
+
+<Redirect to={`/${defaultLocale}/`} />

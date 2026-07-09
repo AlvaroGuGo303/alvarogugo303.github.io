@@ -1,0 +1,65 @@
+---
+import { languages } from '@/i18n/ui';
+import { getLangFromUrl } from '@/i18n/utils';
+const lang = getLangFromUrl(Astro.url);
+---
+
+<div class="flex flex-row gap-1">
+	{
+		Object.entries(languages).map(([langPrefix, label]) => {
+			if (langPrefix == lang) return <></>;
+			return (
+				<a
+					href={`/${langPrefix}/`}
+					data-lang-link
+					data-base={`/${langPrefix}/`}
+					data-astro-reload
+					class="hover:scale-125 transition"
+					aria-label={`Cambiar idioma a ${langPrefix}`}
+				>
+					{label}
+				</a>
+			);
+		})
+	}
+</div>
+
+<script>
+	// Al cambiar de idioma conservamos la sección en la que está el usuario.
+	// Los ids de sección son los mismos en ES y EN (home, experience, education,
+	// projects, about, contact), así que basta con llevar el ancla a la otra URL.
+	// Usamos data-astro-reload (recarga completa) para que el navegador haga el
+	// scroll nativo al ancla de forma fiable, sin depender de las view-transitions.
+	document.addEventListener('astro:page-load', () => {
+		const links = document.querySelectorAll<HTMLAnchorElement>('[data-lang-link]');
+		if (!links.length) return;
+
+		const sections = Array.from(document.querySelectorAll<HTMLElement>('main section[id]'));
+
+		const currentSection = () => {
+			const probe = window.scrollY + 140; // margen por el header fijo
+			let id = '';
+			for (const s of sections) {
+				if (s.offsetTop <= probe) id = s.id;
+			}
+			// si estamos casi al final, prioriza la última sección visible
+			if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 4 && sections.length) {
+				id = sections[sections.length - 1].id;
+			}
+			return id;
+		};
+
+		const sync = () => {
+			const sec = currentSection();
+			links.forEach((a) => {
+				const base = a.dataset.base ?? '/';
+				a.setAttribute('href', base + (sec ? `#${sec}` : ''));
+			});
+		};
+
+		sync();
+		window.addEventListener('scroll', sync, { passive: true });
+		// recalcular justo antes de navegar, por si acaso
+		links.forEach((a) => a.addEventListener('pointerdown', sync));
+	});
+</script>
