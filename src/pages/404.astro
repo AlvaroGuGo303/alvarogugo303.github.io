@@ -1,11 +1,12 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 
-// GitHub Pages sirve dist/404.html para cualquier ruta inexistente, por eso
-// vive en la raíz (no bajo [lang]) y no sabe el idioma del visitante → ES.
+// 404 estático único: GitHub Pages sirve dist/404.html para cualquier ruta.
+// No sabe el idioma en build, así que se detecta en CLIENTE desde la URL:
+// /en/… → inglés; en cualquier otro caso → español (por defecto).
 ---
 
-<Layout title="404 — Álvaro Guillén" description="Página no encontrada" lang="es">
+<Layout title="404 — Álvaro Guillén" description="Página no encontrada · Page not found" lang="es">
 	<main class="max-w-2xl mx-auto px-4 pt-40 md:pt-48 pb-32 text-center">
 		<svg viewBox="0 0 64 64" class="w-14 h-14 mx-auto opacity-90" aria-hidden="true">
 			<rect x="4" y="4" width="56" height="56" rx="14" fill="none" class="stroke-accent dark:stroke-accent-hot" stroke-width="4"></rect>
@@ -13,17 +14,34 @@ import Layout from '@/layouts/Layout.astro';
 		</svg>
 
 		<p class="mt-8 font-mono text-sm text-accent dark:text-accent-hot">404</p>
-		<h1 class="mt-2 text-3xl md:text-4xl font-bold tracking-tight text-balance">
+		<h1 id="nf-title" class="mt-2 text-3xl md:text-4xl font-bold tracking-tight text-balance">
 			Esta página no existe
 		</h1>
-		<p class="mt-3 af-muted">La página que buscas no existe o se ha movido.</p>
+		<p id="nf-text" class="mt-3 af-muted">La página que buscas no existe o se ha movido.</p>
 
 		<div class="mt-8">
 			<a
+				id="nf-home"
 				href="/es/"
 				class="rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-white hover:bg-accent-hot transition"
 				>Volver al inicio</a
 			>
 		</div>
 	</main>
+
+	<script is:inline>
+		// Si la ruta que se intentó abrir es de inglés (/en/…), mostrar el 404 en inglés.
+		if (/^\/en(\/|$)/.test(location.pathname)) {
+			document.documentElement.lang = 'en';
+			var t = document.getElementById('nf-title');
+			var s = document.getElementById('nf-text');
+			var h = document.getElementById('nf-home');
+			if (t) t.textContent = "This page doesn't exist";
+			if (s) s.textContent = "The page you're looking for doesn't exist or has moved.";
+			if (h) {
+				h.setAttribute('href', '/en/');
+				h.textContent = 'Back to home';
+			}
+		}
+	</script>
 </Layout>
