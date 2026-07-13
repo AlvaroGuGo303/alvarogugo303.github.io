@@ -8,7 +8,7 @@ export const ui = {
 	es: {
 		'layout.title': 'Porfolio de Álvaro Guillén - Desarrollador y Programador Web',
 		'layout.description':
-			'Contrata a Álvaro para crear tu aplicación web. Desarrollador Web. Especializado en infraestructura.',
+			'Álvaro Guillén — ingeniero backend y full-stack. Arquitectura hexagonal, Java/Spring Boot, Angular/Vue, microservicios. Disponible para proyectos freelance.',
 		'nav.experience': 'Experiencia',
 		'nav.projects': 'Proyectos',
 		'nav.about': 'Sobre mí',
@@ -32,7 +32,7 @@ export const ui = {
 		'projects.title': 'Proyectos',
 		'about.eyebrow': 'Quién soy',
 		'about.title': 'Sobre mí',
-		'about.bio': `<p>Me llamo Álvaro Guillén González. Empecé en la programación en el colegio con pequeños scripts, tenía 14 años. Actualmente estoy <strong>trabajando en el desarrollo de pÃ¡ginas webs como Full Stack</strong>.</p><p>Algunos de mis éxitos incluyen <strong>ser profesor Auxiliar en la Universidad de Barcelona</strong> implementando la comunicación con la base de datos SQLite, el CRUD, las propias tablas y los  propios datos. Me consta que <strong> hoy en día siguen utilizando mi código </strong> en esa asignatura de Diseño de Patrones (MVC).</p><p>Algo de lo que estoy sumamente orgulloso es de embarcarme en uno de los <strong>mayores desafÃ­os</strong> para mi TFG en la universidad, <strong>aprendiendo por mi cuenta</strong> y aplicando patrones de software y de arquitectura a un alto nivel que <strong> hoy en día estan pidiendo y buscando muchas empresas</strong></p><p>Cuento con experiencia desarrollando aplicaciones web  <strong> aplicando diversos patrones arquitectÃ³nicos para garantizar la escalabilidad a nivel empresarial del código</strong>. Mi objetivo es llevar el conocimiento de aplicaciones web al siguiente nivel</p>`,
+		'about.bio': `<p>Me llamo Álvaro Guillén González. Escribí mis primeros scripts con 14 años, en el colegio, y hoy me dedico a construir <strong>aplicaciones web full-stack</strong>.</p><p>Algo de lo que estoy orgulloso: como <strong>profesor auxiliar en la Universidad de Barcelona</strong>, desarrollé la integración con SQLite, el CRUD y la capa de datos de una asignatura de Patrones de Diseño (MVC) — y <strong>ese código se sigue usando allí hoy</strong>.</p><p>En mi Trabajo de Fin de Grado (TFG) asumí uno de los <strong>mayores desafíos</strong> de la carrera: <strong>aprender por mi cuenta</strong> a aplicar patrones de software y arquitectura al nivel que las empresas buscan activamente.</p><p>Desde entonces construyo aplicaciones web sobre <strong>patrones arquitectónicos que mantienen el código escalable a nivel empresarial</strong>, y no dejo de llevar esa experiencia más lejos.</p>`,
 		'contact.eyebrow': 'Hablemos',
 		'contact.title': '¿Construimos algo juntos?',
 		'contact.text':
@@ -129,7 +129,7 @@ export const ui = {
 				tags: ['Java Spring Boot', 'Java APX'],
 			},
 			{
-				title: '+750h PrÃ¡cticas FullStack',
+				title: '+750h Prácticas FullStack',
 				date: 'Octubre 2022 - Marzo 2023',
 				company: 'Applus+ IDIADA',
 				description: '',
@@ -206,7 +206,7 @@ export const ui = {
 			{
 				title: 'Konglomerate - Página web estilo Instagram/Twitter',
 				description:
-					'Konglomerate fue una página web desarrollada como proyecto universitario en un equipo de 7. Trabajamos con metodologÃ­a Agile y participé activamente montando la estructura inicial del proyecto y configurándolo junto a  otro compañero (DevOps). DespuÃ©s estuve junto a 2 compaÃ±eros en la parte del Backend diseñando la base de datos y desarrollando los CRUDs. A continuación pasé a la parte del Frontend donde me encargué de solucionar algunos bugs ademas de implementar otras caracterÃ­sticas junto con otros 2 compaÃ±eros. Finalmente volví a la parte más DevOps configurando el entorno para el deploy a producción en Heroku.',
+					'Konglomerate fue una página web desarrollada como proyecto universitario en un equipo de 7. Trabajamos con metodología Agile y participé activamente montando la estructura inicial del proyecto y configurándolo junto a  otro compañero (DevOps). Después estuve junto a 2 compañeros en la parte del Backend diseñando la base de datos y desarrollando los CRUDs. A continuación pasé a la parte del Frontend donde me encargué de solucionar algunos bugs ademas de implementar otras características junto con otros 2 compañeros. Finalmente volví a la parte más DevOps configurando el entorno para el deploy a producción en Heroku.',
 				image: '/projects/konglomerate.webp',
 				alt: 'Konglomerate',
 				tags: ['VUE', 'JAVASCRIPT', 'HTML', 'CSS', 'PYTHON', 'HEROKU'],
@@ -216,7 +216,7 @@ export const ui = {
 	en: {
 		'layout.title': "Álvaro Guillén's Portfolio - Web Developer and Programmer",
 		'layout.description':
-			'Hire Álvaro to create your web application. Web Developer. Specialized in infrastructure.',
+			'Álvaro Guillén — backend & full-stack engineer. Hexagonal architecture, Java/Spring Boot, Angular/Vue, microservices. Available for freelance projects.',
 		'nav.experience': 'Experience',
 		'nav.projects': 'Projects',
 		'nav.about': 'About me',
@@ -240,7 +240,7 @@ export const ui = {
 		'projects.title': 'Projects',
 		'about.eyebrow': 'Who I am',
 		'about.title': 'About me',
-		'about.bio': `<p>My name is Álvaro Guillén González. I started programming in school with small scripts when I was 14 years old. I am currently <strong>working on the development of Full Stack websites</strong>.</p><p>Some of my successes include <strong>being an Assistant Professor at the University of Barcelona</strong> implementing communication with the SQLite database, CRUD, the tables themselves, and the data itself. I know that <strong>my code is still being used</strong> in that Pattern Design (MVC) course.</p><p>Something I'm extremely proud of is embarking on one of the <strong>biggest challenges</strong> for my university TFG, <strong>learning on my own</strong> and applying software and architectural patterns at a high level that <strong>many companies are currently asking for and looking for</strong></p><p>I have experience developing web applications <strong>applying various architectural patterns to ensure enterprise-level scalability of the code</strong>. My goal is to take my knowledge of web applications to the next level</p>`,
+		'about.bio': `<p>My name is Álvaro Guillén González. I wrote my first scripts at 14, back in school, and today I build <strong>full-stack web applications</strong> for a living.</p><p>One thing I'm proud of: as an <strong>Assistant Professor at the University of Barcelona</strong>, I built the SQLite integration, CRUD and data layer for a Design Patterns (MVC) course — and <strong>that code is still in use there today</strong>.</p><p>For my final degree project (TFG) I took on one of the <strong>biggest challenges</strong> of my studies: <strong>teaching myself</strong> to apply software and architectural patterns at the level companies are actively hiring for.</p><p>Since then I've built web applications around <strong>architectural patterns that keep code scalable at enterprise level</strong>, and I'm always pushing that expertise further.</p>`,
 		'contact.eyebrow': "Let's talk",
 		'contact.title': "Shall we build something together?",
 		'contact.text':
