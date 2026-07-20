@@ -4,6 +4,7 @@ import Layout from '@/layouts/Layout.astro';
 // 404 estático único: GitHub Pages sirve dist/404.html para cualquier ruta.
 // No sabe el idioma en build, así que se detecta en CLIENTE desde la URL:
 // /en/… → inglés; en cualquier otro caso → español (por defecto).
+// Rutas legacy (p. ej. el one-pager antiguo en PDF) muestran un aviso de “movido”.
 ---
 
 <Layout title="404 — Álvaro Guillén" description="Página no encontrada · Page not found" lang="es">
@@ -13,35 +14,129 @@ import Layout from '@/layouts/Layout.astro';
 			<text x="32" y="42" text-anchor="middle" class="fill-steel dark:fill-steel-light" font-family="ui-monospace, monospace" font-size="26" font-weight="700">AG</text>
 		</svg>
 
-		<p class="mt-8 font-mono text-sm text-accent dark:text-accent-hot">404</p>
-		<h1 id="nf-title" class="mt-2 text-3xl md:text-4xl font-bold tracking-tight text-balance">
-			Esta página no existe
-		</h1>
-		<p id="nf-text" class="mt-3 af-muted">La página que buscas no existe o se ha movido.</p>
+		<!-- 404 genérico (por defecto) -->
+		<div id="nf-generic">
+			<p class="mt-8 font-mono text-sm text-accent dark:text-accent-hot">404</p>
+			<h1 id="nf-title" class="mt-2 text-3xl md:text-4xl font-bold tracking-tight text-balance">
+				Esta página no existe
+			</h1>
+			<p id="nf-text" class="mt-3 af-muted">La página que buscas no existe o se ha movido.</p>
 
-		<div class="mt-8">
-			<a
-				id="nf-home"
-				href="/es/"
-				class="rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-white hover:bg-accent-hot transition"
-				>Volver al inicio</a
-			>
+			<div class="mt-8">
+				<a
+					id="nf-home"
+					href="/es/"
+					class="rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-white hover:bg-accent-hot transition"
+					>Volver al inicio</a
+				>
+			</div>
+		</div>
+
+		<!-- One-pager antiguo movido a AlveoForge -->
+		<div id="nf-moved" class="hidden">
+			<p class="mt-8 font-mono text-sm text-accent dark:text-accent-hot">301 · moved</p>
+			<h1 id="mv-title" class="mt-2 text-3xl md:text-4xl font-bold tracking-tight text-balance">
+				Esta página fue movida
+			</h1>
+			<p id="mv-lead" class="mt-3 af-muted text-pretty">
+				El one-pager del proyecto ahora vive en AlveoForge.
+			</p>
+
+			<div class="mt-8 space-y-5 text-left max-w-md mx-auto">
+				<div>
+					<p id="mv-onepager-label" class="text-sm af-muted mb-1.5">Si quieres ver el one-pager:</p>
+					<a
+						href="https://alveoforge.com/alveoforge-onepager.html"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="block font-mono text-sm text-accent dark:text-accent-hot underline-offset-2 hover:underline break-all"
+						>https://alveoforge.com/alveoforge-onepager.html</a
+					>
+				</div>
+				<div>
+					<p id="mv-portfolio-label" class="text-sm af-muted mb-1.5">Si quieres ver el porfolio personal:</p>
+					<a
+						href="https://alvarogugo303.github.io/"
+						class="block font-mono text-sm text-accent dark:text-accent-hot underline-offset-2 hover:underline break-all"
+						>https://alvarogugo303.github.io</a
+					>
+				</div>
+			</div>
+
+			<div class="mt-10 flex flex-wrap items-center justify-center gap-3">
+				<a
+					href="https://alveoforge.com/alveoforge-onepager.html"
+					target="_blank"
+					rel="noopener noreferrer"
+					id="mv-cta-onepager"
+					class="rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-white hover:bg-accent-hot transition"
+					>Ver one-pager</a
+				>
+				<a
+					id="mv-cta-home"
+					href="/es/"
+					class="rounded-lg px-5 py-2.5 text-sm font-semibold af-card text-ink dark:text-white hover:border-accent/40 hover:text-accent dark:hover:text-accent-hot transition"
+					>Ir al porfolio</a
+				>
+			</div>
 		</div>
 	</main>
 
 	<script is:inline>
-		// Si la ruta que se intentó abrir es de inglés (/en/…), mostrar el 404 en inglés.
-		if (/^\/en(\/|$)/.test(location.pathname)) {
-			document.documentElement.lang = 'en';
-			var t = document.getElementById('nf-title');
-			var s = document.getElementById('nf-text');
-			var h = document.getElementById('nf-home');
-			if (t) t.textContent = "This page doesn't exist";
-			if (s) s.textContent = "The page you're looking for doesn't exist or has moved.";
-			if (h) {
-				h.setAttribute('href', '/en/');
-				h.textContent = 'Back to home';
+		(function () {
+			var path = location.pathname.replace(/\/+$/, '') || '/';
+			var params = new URLSearchParams(location.search);
+			var wantEn =
+				params.get('lang') === 'en' ||
+				/^\/en(\/|$)/.test(location.pathname) ||
+				((navigator.language || '').toLowerCase().indexOf('en') === 0 && params.get('lang') !== 'es');
+
+			var isMovedOnepager =
+				/(^|\/)backend-factory-onepager\.pdf$/i.test(path) ||
+				/(^|\/)backend-factory-onepager$/i.test(path);
+
+			if (isMovedOnepager) {
+				var generic = document.getElementById('nf-generic');
+				var moved = document.getElementById('nf-moved');
+				if (generic) generic.classList.add('hidden');
+				if (moved) moved.classList.remove('hidden');
+
+				if (wantEn) {
+					document.documentElement.lang = 'en';
+					document.title = 'One-pager moved — Álvaro Guillén';
+					var set = function (id, text) {
+						var el = document.getElementById(id);
+						if (el) el.textContent = text;
+					};
+					set('mv-title', 'This page has moved');
+					set('mv-lead', 'The project one-pager now lives on AlveoForge.');
+					set('mv-onepager-label', 'If you want to see the one-pager:');
+					set('mv-portfolio-label', 'If you want to see the personal portfolio:');
+					set('mv-cta-onepager', 'View one-pager');
+					var home = document.getElementById('mv-cta-home');
+					if (home) {
+						home.setAttribute('href', '/en/');
+						home.textContent = 'Go to portfolio';
+					}
+				} else {
+					document.title = 'One-pager movido — Álvaro Guillén';
+				}
+				return;
 			}
-		}
+
+			// Si la ruta que se intentó abrir es de inglés (/en/…), mostrar el 404 en inglés.
+			if (/^\/en(\/|$)/.test(location.pathname)) {
+				document.documentElement.lang = 'en';
+				var t = document.getElementById('nf-title');
+				var s = document.getElementById('nf-text');
+				var h = document.getElementById('nf-home');
+				if (t) t.textContent = "This page doesn't exist";
+				if (s) s.textContent = "The page you're looking for doesn't exist or has moved.";
+				if (h) {
+					h.setAttribute('href', '/en/');
+					h.textContent = 'Back to home';
+				}
+			}
+		})();
 	</script>
 </Layout>
