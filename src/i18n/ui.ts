@@ -80,9 +80,9 @@ export const ui = {
 			{
 				title: 'Fundador & Backend Engineer',
 				date: 'Septiembre 2025 - Actualidad',
-				company: 'Proyecto propio',
+				company: 'AlveoForge',
 				description:
-					'Fundador y desarrollador de proyecto propio: plataforma de **generación automática determinista** de backends **Java Spring Boot Hexagonales** desde SQL. Responsable del ciclo completo; **Java 25**, CRUD, JWT, tests y OpenAPI. Multi-BD SQL/MongoDB/Redis, outbox; monolito modular con **vertical slicing** o microservicios. Generador con **cobertura de tests al 100%** + E2E; perfiles Maven. Documentación bajo solicitud. Lanzamiento: **julio–agosto 2026**.',
+					'Fundador y desarrollador de **AlveoForge** ([alveoforge.com](https://alveoforge.com)): plataforma de **generación automática determinista** de backends **Java Spring Boot Hexagonales** desde SQL. Responsable del ciclo completo; **Java 25**, CRUD, JWT, tests y OpenAPI. Multi-BD SQL/MongoDB/Redis, outbox; monolito modular con **vertical slicing** o microservicios. Generador con **cobertura de tests al 95–100%** + E2E; perfiles Maven. Documentación bajo solicitud. Lanzamiento: **julio–agosto 2026**.',
 				tasks: [],
 				tags: [
 					'Java 25',
@@ -96,8 +96,8 @@ export const ui = {
 					'Maven',
 					'Testing E2E',
 				],
-				link: '/backend-factory-onepager.pdf',
-				linkLabel: 'Ver one-pager (PDF)',
+				link: 'https://alveoforge.com/alveoforge-onepager.html',
+				linkLabel: 'Ver one-pager',
 			},
 			{
 				title: 'FullStack Engineer',
@@ -156,11 +156,15 @@ export const ui = {
 		],
 		projects: [
 			{
-				title: 'Fábrica de generación de backends',
+				title: 'AlveoForge',
 				description:
-					'Proyecto propio: una fábrica que genera **backends Java listos para producción** a partir de un esquema SQL. **Arquitectura hexagonal** con vertical slicing y una base **100% testeada** para cada entidad del dominio, entregada en **días en vez de meses**. El mismo esquema como monolito modular o microservicios, sin lock-in; multi-BD (PostgreSQL/MongoDB/Redis) con patrón outbox, JWT y OpenAPI. Validado sobre un esquema real de **+300 tablas**.',
+					'**AlveoForge** ([alveoforge.com](https://alveoforge.com)): fábrica que genera **backends Java listos para producción** a partir de un esquema SQL. **Arquitectura hexagonal** con vertical slicing y una base **95–100% testeada** para cada entidad del dominio, entregada en **días en vez de meses**. El mismo esquema como monolito modular o microservicios, sin lock-in; multi-BD (PostgreSQL/MongoDB/Redis) con patrón outbox, JWT y OpenAPI. Validado sobre un esquema real de **+300 tablas**.',
 				image: '/projects/backend-factory.svg',
-				alt: 'Fábrica de generación de backends',
+				alt: 'AlveoForge — generación de backends Java',
+				imageFrameClass: 'md:self-center',
+				imageClass: 'object-center md:!max-h-72',
+				link: 'https://alveoforge.com/alveoforge-onepager.html',
+				linkLabel: 'Ver one-pager',
 				tags: [
 					'Java 25',
 					'Java Spring Boot',
@@ -182,6 +186,8 @@ export const ui = {
 				github: '',
 				image: '/projects/deepknowdelge.webp',
 				alt: 'Proyecto TFG DeepKnowlege',
+				imageFrameClass: 'md:self-center',
+				imageClass: 'object-center md:!max-h-72',
 				tags: [
 					'JAVA_SPRING_BOOT',
 					'SINGLE_SPA',
@@ -209,6 +215,8 @@ export const ui = {
 					'Konglomerate fue una página web desarrollada como proyecto universitario en un equipo de 7. Trabajamos con metodología Agile y participé activamente montando la estructura inicial del proyecto y configurándolo junto a  otro compañero (DevOps). Después estuve junto a 2 compañeros en la parte del Backend diseñando la base de datos y desarrollando los CRUDs. A continuación pasé a la parte del Frontend donde me encargué de solucionar algunos bugs ademas de implementar otras características junto con otros 2 compañeros. Finalmente volví a la parte más DevOps configurando el entorno para el deploy a producción en Heroku.',
 				image: '/projects/konglomerate.webp',
 				alt: 'Konglomerate',
+				imageFrameClass: 'md:self-center',
+				imageClass: 'object-center md:!max-h-72',
 				tags: ['VUE', 'JAVASCRIPT', 'HTML', 'CSS', 'PYTHON', 'HEROKU'],
 			},
 		],
@@ -288,9 +296,9 @@ export const ui = {
 			{
 				title: 'Founder & Backend Engineer',
 				date: 'September 2025 - Present',
-				company: 'Own project',
+				company: 'AlveoForge',
 				description:
-					'Founder and developer of my own project: a platform for **deterministic automatic generation** of **Hexagonal Java Spring Boot** backends from SQL. Responsible for the full cycle; **Java 25**, CRUD, JWT, tests and OpenAPI. Multi-DB SQL/MongoDB/Redis, outbox; modular monolith with **vertical slicing** or microservices. Generator with **100% test coverage** + E2E; Maven profiles. Documentation on request. Launch: **July–August 2026**.',
+					'Founder and developer of **AlveoForge** ([alveoforge.com](https://alveoforge.com)): a platform for **deterministic automatic generation** of **Hexagonal Java Spring Boot** backends from SQL. Responsible for the full cycle; **Java 25**, CRUD, JWT, tests and OpenAPI. Multi-DB SQL/MongoDB/Redis, outbox; modular monolith with **vertical slicing** or microservices. Generator with **95–100% test coverage** + E2E; Maven profiles. Documentation on request. Launch: **July–August 2026**.',
 				tasks: [],
 				tags: [
 					'Java 25',
@@ -304,8 +312,8 @@ export const ui = {
 					'Maven',
 					'E2E Testing',
 				],
-				link: '/backend-factory-onepager.pdf',
-				linkLabel: 'View one-pager (PDF)',
+				link: 'https://alveoforge.com/alveoforge-onepager.html',
+				linkLabel: 'View one-pager',
 			},
 			{
 				title: 'FullStack Engineer',
@@ -364,11 +372,15 @@ export const ui = {
 		],
 		projects: [
 			{
-				title: 'Backend generation factory',
+				title: 'AlveoForge',
 				description:
-					'My own project: a factory that generates **production-ready Java backends** from a SQL schema. **Hexagonal architecture** with vertical slicing and a **100%-tested** foundation for every domain entity, delivered in **days instead of months**. The same schema as a modular monolith or microservices, with no lock-in; multi-DB (PostgreSQL/MongoDB/Redis) with outbox pattern, JWT and OpenAPI. Validated on a real **300+ table schema**.',
+					'**AlveoForge** ([alveoforge.com](https://alveoforge.com)): a factory that generates **production-ready Java backends** from a SQL schema. **Hexagonal architecture** with vertical slicing and a **95–100% tested** foundation for every domain entity, delivered in **days instead of months**. The same schema as a modular monolith or microservices, with no lock-in; multi-DB (PostgreSQL/MongoDB/Redis) with outbox pattern, JWT and OpenAPI. Validated on a real **300+ table schema**.',
 				image: '/projects/backend-factory.svg',
-				alt: 'Backend generation factory',
+				alt: 'AlveoForge — Java backend generation',
+				imageFrameClass: 'md:self-center',
+				imageClass: 'object-center md:!max-h-72',
+				link: 'https://alveoforge.com/alveoforge-onepager.html',
+				linkLabel: 'View one-pager',
 				tags: [
 					'Java 25',
 					'Java Spring Boot',
@@ -390,6 +402,8 @@ export const ui = {
 				github: '',
 				image: '/projects/deepknowdelge.webp',
 				alt: 'Project TFG DeepKnowlege',
+				imageFrameClass: 'md:self-center',
+				imageClass: 'object-center md:!max-h-72',
 				tags: [
 					'JAVA_SPRING_BOOT',
 					'SINGLE_SPA',
@@ -417,6 +431,8 @@ export const ui = {
 					'Konglomerate was a website developed as a university project by a team of 7. We worked with Agile methodology, and I actively participated in setting up the initial project structure and configuring it with another colleague (DevOps). Then, I worked with two colleagues on the backend side, designing the database and developing the CRUDs. I then moved on to the frontend side, where I was in charge of fixing some bugs and implementing other features with two other colleagues. Finally, I returned to the more DevOps part by setting up the environment for deployment to production on Heroku.',
 				image: '/projects/konglomerate.webp',
 				alt: 'Konglomerate',
+				imageFrameClass: 'md:self-center',
+				imageClass: 'object-center md:!max-h-72',
 				tags: ['VUE', 'JAVASCRIPT', 'HTML', 'CSS', 'PYTHON', 'HEROKU'],
 			},
 		],

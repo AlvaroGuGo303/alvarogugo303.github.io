@@ -17,17 +17,29 @@ const PROJECTS = t('projects'); // tipos inferidos desde i18n/ui.ts
 
 		<div class="flex flex-col gap-6 mt-12">
 			{
-				PROJECTS.map(({ image, title, alt, description, tags }) => (
+				PROJECTS.map((project) => {
+					const { image, title, alt, description, tags } = project;
+					const link = 'link' in project && project.link ? project.link : undefined;
+					const linkLabel = 'linkLabel' in project ? project.linkLabel : undefined;
+					return (
 					<article class="af-card group p-6 md:p-8">
 						<h3 class="text-lg md:text-xl font-bold text-ink dark:text-white text-center text-balance">
 							{title}
 						</h3>
 
 						<div class="flex flex-col md:flex-row gap-6 mt-5">
-							<div class="md:w-2/5 shrink-0 overflow-hidden rounded-xl border border-black/[0.06] dark:border-white/10">
+							<div
+								class:list={[
+									'md:w-2/5 shrink-0 overflow-hidden rounded-xl border border-black/[0.06] dark:border-white/10',
+									'imageFrameClass' in project ? project.imageFrameClass : undefined,
+								]}
+							>
 								<img
 									alt={alt ?? title}
-									class="lightbox-thumb object-cover object-top w-full h-44 md:h-full md:max-h-56 cursor-zoom-in transition duration-500 group-hover:scale-105"
+									class:list={[
+										'lightbox-thumb object-cover object-top w-full h-44 md:h-full md:max-h-56 cursor-zoom-in transition duration-500 group-hover:scale-105',
+										'imageClass' in project ? project.imageClass : undefined,
+									]}
 									loading="lazy"
 									src={image}
 								/>
@@ -36,10 +48,25 @@ const PROJECTS = t('projects'); // tipos inferidos desde i18n/ui.ts
 							<div class="flex-1">
 								<TagList tags={tags} class="" />
 								<p class="mt-4 af-muted text-pretty text-sm" set:html={inline(description)} />
+								{link && (
+									<a
+										href={link}
+										target="_blank"
+										rel="noopener noreferrer"
+										class="inline-flex items-center gap-1.5 mt-4 px-3.5 py-2 rounded-lg text-sm font-semibold af-card text-ink dark:text-white transition hover:border-accent/40 hover:text-accent dark:hover:text-accent-hot"
+									>
+										{linkLabel ?? link}
+										<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+											<path d="M7 7h10v10" />
+											<path d="M7 17 17 7" />
+										</svg>
+									</a>
+								)}
 							</div>
 						</div>
 					</article>
-				))
+					);
+				})
 			}
 		</div>
 	</SectionContainer>
